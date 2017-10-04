@@ -1,0 +1,35 @@
+group 'io.jokerr'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext {
+        bootVersion = '1.5.7.RELEASE'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${bootVersion}"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+sourceCompatibility = 1.8
+
+ext {
+    bootVersion = '1.5.7.RELEASE'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-jersey:${bootVersion}"
+    compile "org.springframework.boot:spring-boot-starter-security:${bootVersion}"
+
+    testCompile "org.springframework.boot:spring-boot-starter-test:${bootVersion}"
+}
