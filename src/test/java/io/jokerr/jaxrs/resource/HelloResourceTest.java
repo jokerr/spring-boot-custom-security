@@ -35,6 +35,16 @@ public class HelloResourceTest {
     }
 
     @Test
+    public void userCallsAdmin_ExpectAccessDenied() throws Exception {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Username", "testUser");
+        headers.add("x-role", Roles.ROLE_USER);
+
+        ResponseEntity<String> response = get("/v1/hello/admin", headers, String.class);
+        assertEquals(403, response.getStatusCodeValue());
+    }
+
+    @Test
     public void getAdminHelloWorld() throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Username", "testAdmin");
