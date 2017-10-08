@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -48,5 +49,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
                 .addFilterBefore(new CustomFilter(authenticationManager()), BasicAuthenticationFilter.class);
+    }
+
+    @Bean
+    public static GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        // In Spring Security the roles must begin with "ROLE_" otherwise the JSR250, Secured, or prePost Authorization
+        // annotations will not work.  This bean will will let us define the roles how we want to.
+        return new GrantedAuthorityDefaults("");
     }
 }
