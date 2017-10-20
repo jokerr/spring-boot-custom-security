@@ -10,12 +10,14 @@ buildscript {
     }
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${bootVersion}"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5"
     }
 }
 
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'org.sonarqube'
 
 sourceCompatibility = 1.8
 
@@ -32,4 +34,10 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-security:${bootVersion}"
 
     testCompile "org.springframework.boot:spring-boot-starter-test:${bootVersion}"
+}
+
+sonarqube {
+    properties {
+        property "sonar.projectName", "spring-boot-custom-security"
+    }
 }
