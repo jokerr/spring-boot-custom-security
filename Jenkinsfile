@@ -19,6 +19,7 @@ node {
     sh "./gradlew clean build"
 
     stage 'Sonar'
+    sh "./gradlew sonarqube"
 
     stage 'Archive'
     archiveArtifacts allowEmptyArchive: true, artifacts: 'build/libs/*.jar', onlyIfSuccessful: true
