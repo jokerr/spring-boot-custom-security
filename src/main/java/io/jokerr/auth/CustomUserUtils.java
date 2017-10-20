@@ -7,6 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
  */
 public final class CustomUserUtils {
 
+    private CustomUserUtils() {
+        //no-op
+    }
+
     public static CustomUser getUser() {
         return (CustomUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
