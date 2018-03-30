@@ -1,4 +1,4 @@
-package io.jokerr.auth;
+package io.jokerr.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,7 +22,6 @@ public class CustomAuthentication implements Authentication {
         }
         this.authorities = Collections.unmodifiableList(authorities);
         this.principal = principal;
-        this.authenticated = true;
     }
 
     @Override

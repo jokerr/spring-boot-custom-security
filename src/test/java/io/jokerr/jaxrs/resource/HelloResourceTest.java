@@ -1,6 +1,6 @@
 package io.jokerr.jaxrs.resource;
 
-import io.jokerr.auth.Roles;
+import io.jokerr.security.Roles;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

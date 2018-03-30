@@ -1,5 +1,8 @@
-package io.jokerr.auth;
+package io.jokerr;
 
+import io.jokerr.security.CustomAuthenticationFailureHandler;
+import io.jokerr.security.CustomAuthenticationProvider;
+import io.jokerr.security.CustomFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,8 +27,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public AuthenticationEntryPoint unauthorizedEntryPoint() {
+
+        // The CustomFilter + CustomAuthenticationProvider makes this somewhat obsolete but it's good to overwrite
+        // this method anyways.  In this case we're just sending the user a 401.
+
+        // Could send a redirect in the real world
+        // response.sendRedirect( SOME URL HERE ));
+
         return (request, response, authException) ->
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Do you token bro?");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "No authentication found");
     }
 
     @Bean
@@ -34,12 +44,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customAuthenticationProvider());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CustomFilter filter = new CustomFilter(authenticationManager());
+        filter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
+
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -48,13 +61,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
-                .addFilterBefore(new CustomFilter(authenticationManager()), BasicAuthenticationFilter.class);
+                .addFilterBefore(filter, BasicAuthenticationFilter.class);
     }
 
     @Bean
     public static GrantedAuthorityDefaults grantedAuthorityDefaults() {
-        // In Spring Security the roles must begin with "ROLE_" otherwise the JSR250, Secured, or prePost Authorization
-        // annotations will not work.  This bean will will let us define the roles how we want to.
+        // In Spring Security the roles must begin with "ROLE_" otherwise the JSR250, Secured, or prePost
+        // authorization annotations will not work.  This bean will will let us define the roles how we want to.
         return new GrantedAuthorityDefaults("");
     }
 }

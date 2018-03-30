@@ -1,6 +1,6 @@
 package io.jokerr.beans;
 
-import io.jokerr.auth.Roles;
+import io.jokerr.security.Roles;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Component;
 
