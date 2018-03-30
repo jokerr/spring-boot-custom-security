@@ -1,5 +1,6 @@
 package io.jokerr;
 
+import io.jokerr.security.CustomAuthenticationFailureHandler;
 import io.jokerr.security.CustomAuthenticationProvider;
 import io.jokerr.security.CustomFilter;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CustomFilter filter = new CustomFilter(authenticationManager());
+        filter.setAuthenticationFailureHandler(new CustomAuthenticationFailureHandler());
+
         http.csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
@@ -50,7 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .anonymous().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedEntryPoint())
                 .and()
-                .addFilterBefore(new CustomFilter(authenticationManager()), BasicAuthenticationFilter.class);
+                .addFilterBefore(filter, BasicAuthenticationFilter.class);
     }
 
     @Bean
