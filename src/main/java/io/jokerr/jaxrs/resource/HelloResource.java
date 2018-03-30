@@ -1,7 +1,7 @@
 package io.jokerr.jaxrs.resource;
 
-import io.jokerr.auth.CustomUserUtils;
-import io.jokerr.auth.Roles;
+import io.jokerr.security.CustomUserUtils;
+import io.jokerr.security.Roles;
 import io.jokerr.beans.HelloService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

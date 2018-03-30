@@ -1,4 +1,4 @@
-package io.jokerr.auth;
+package io.jokerr.security;
 
 /**
  * @author jokerr

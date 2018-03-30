@@ -1,5 +1,7 @@
-package io.jokerr.auth;
+package io.jokerr;
 
+import io.jokerr.security.CustomAuthenticationProvider;
+import io.jokerr.security.CustomFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -34,7 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(customAuthenticationProvider());
     }
 

@@ -1,4 +1,4 @@
-package io.jokerr.auth;
+package io.jokerr.security;
 
 import org.springframework.security.core.AuthenticationException;
 
